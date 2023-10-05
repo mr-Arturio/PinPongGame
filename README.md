@@ -15,3 +15,6 @@ Things to consider:
 To add:
 for ping pong score  when score is 10:10 add an option for player to win by two points
 keep track of the game score: how many games one player won. 
+
+Progress: <br>
+I have a ping pong game that needs to be refactored. It is currently you versus the computer. We need to add a second player option, connect scores, and implement "Playing To" logic. Additionally, we need to adjust the game mechanics.
