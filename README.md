@@ -11,3 +11,7 @@ In the future, I may add the ability to play with your friends on different mach
 Things to consider:
 - *Game Logic: Understand the physics of ball movement in a Ping Pong game. You'll need to handle collisions, calculate angles, and update the game state accordingly. There are libraries like Matter.js or Phaser that can simplify this process.* 
 - *Graphics and Visuals: Think about the visual elements of your game. Even in its early stages, having some basic graphics and animations can make the game more engaging.*
+
+To add:
+for ping pong score  when score is 10:10 add an option for player to win by two points
+keep track of the game score: how many games one player won. 
