@@ -1,7 +1,7 @@
-import { DIRECTION } from './constants.js';
+import { DIRECTION } from './directions.js';
 
 // The ai object (The two lines that move up and down)
-const Ai = {
+export const Ai = {
   new(side) {
       return {
           width: 18,
