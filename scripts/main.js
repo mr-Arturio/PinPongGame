@@ -360,3 +360,4 @@ _generateRoundColor: function () {
 
 const Pong = Object.assign({}, Game);
 Pong.initialize();
+
