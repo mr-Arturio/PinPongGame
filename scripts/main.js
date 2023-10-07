@@ -2,6 +2,7 @@ import { Ball } from "./modules/ball.js";
 import { DIRECTION } from "./modules/directions.js";
 import { Ai } from "./modules/ai.js";
 import { drawGame } from "./modules/drawGame.js";
+import { Player } from "./modules/player.js";
 
 const rounds = [5, 5, 3, 3, 2];
 const colors = ["#1abc9c", "#2ecc71", "#3498db", "#8c52ff", "#9b59b6"];
@@ -10,23 +11,36 @@ const Game = {
   initialize() {
     this.canvas = document.querySelector("canvas");
     this.context = this.canvas.getContext("2d");
-
+  
     this.canvas.width = 1400;
     this.canvas.height = 1000;
-
+  
     this.canvas.style.width = this.canvas.width / 2 + "px";
     this.canvas.style.height = this.canvas.height / 2 + "px";
-
-    this.player = Ai.new.call(this, "left");
-    this.ai = Ai.new.call(this, "right");
+  
+    // Prompt the user to choose between playing against AI or another player
+    const choice = prompt('Choose your opponent: 1 for AI, 2 for another player');
+  
+    if (choice === '1') {
+      this.player = Player.new.call(this, 'left', ['w', 's']);
+      this.ai = Ai.new.call(this, 'right');
+    } else if (choice === '2') {
+      this.player = Player.new.call(this, 'left', ['w', 's']);
+      this.secondPlayer = Player.new.call(this, 'right', ['ArrowUp', 'ArrowDown']);
+    } else {
+      alert('Invalid choice. Playing against AI by default.');
+      this.player = Player.new.call(this, 'left', ['w', 's']);
+      this.ai = Ai.new.call(this, 'right');
+    }
+  
     this.ball = Ball.new.call(this);
-
-    this.ai.speed = 5;
+  
+    // this.ai.speed = 5;
     this.running = this.over = false;
     this.turn = this.ai;
     this.timer = this.round = 0;
     this.color = "#8c52ff";
-
+  
     Pong.menu();
     Pong.listen();
   },
@@ -219,27 +233,48 @@ const Game = {
   },
 
   listen: function () {
-    document.addEventListener("keydown", function (key) {
+    const self = this; // Store a reference to 'this' to use within event listeners
+  
+    document.addEventListener('keydown', function (key) {
       // Handle the 'Press any key to begin' function and start the game.
-      if (Pong.running === false) {
-        Pong.running = true;
-        window.requestAnimationFrame(Pong.loop);
+      if (self.running === false) {
+        self.running = true;
+        window.requestAnimationFrame(self.loop);
       }
-
-      // Handle up arrow and w key events
-      if (key.key === "ArrowUp" || key.key === "w")
-        Pong.player.move = DIRECTION.UP;
-
-      // Handle down arrow and s key events
-      if (key.key === "ArrowDown" || key.key === "s")
-        Pong.player.move = DIRECTION.DOWN;
+  
+      // Handle input for the first player (left)
+      if (key.key === self.player.controlKeys[0]) {
+        self.player.move = DIRECTION.UP;
+      } else if (key.key === self.player.controlKeys[1]) {
+        self.player.move = DIRECTION.DOWN;
+      }
+  
+      // Handle input for the second player (right)
+      if (self.secondPlayer) {
+        if (key.key === self.secondPlayer.controlKeys[0]) {
+          self.secondPlayer.move = DIRECTION.UP;
+        } else if (key.key === self.secondPlayer.controlKeys[1]) {
+          self.secondPlayer.move = DIRECTION.DOWN;
+        }
+      }
     });
-
-    // Stop the player from moving when there are no keys being pressed.
-    document.addEventListener("keyup", function (key) {
-      Pong.player.move = DIRECTION.IDLE;
+  
+    // Stop the players from moving when there are no keys being pressed.
+    document.addEventListener('keyup', function (key) {
+      // Handle input for the first player (left)
+      if (key.key === self.player.controlKeys[0] || key.key === self.player.controlKeys[1]) {
+        self.player.move = DIRECTION.IDLE;
+      }
+  
+      // Handle input for the second player (right)
+      if (self.secondPlayer) {
+        if (key.key === self.secondPlayer.controlKeys[0] || key.key === self.secondPlayer.controlKeys[1]) {
+          self.secondPlayer.move = DIRECTION.IDLE;
+        }
+      }
     });
   },
+  
 
   // Reset the ball location, the player turns and set a delay before the next round begins.
   _resetTurn: function (victor, loser) {

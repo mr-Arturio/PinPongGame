@@ -19,8 +19,15 @@ export function drawGame(Pong, rounds) {
     Pong.player.height
   );
 
-  // Draw the Ai
-  Pong.context.fillRect(Pong.ai.x, Pong.ai.y, Pong.ai.width, Pong.ai.height);
+  // Draw the secondPlayer (if it exists)
+  if (Pong.secondPlayer) {
+    Pong.context.fillRect(
+      Pong.secondPlayer.x,
+      Pong.secondPlayer.y,
+      Pong.secondPlayer.width,
+      Pong.secondPlayer.height
+    );
+  }
 
   // Draw the Ball
   if (Pong._turnDelayIsOver.call(Pong)) {
@@ -52,12 +59,14 @@ export function drawGame(Pong, rounds) {
     200
   );
 
-  // Draw the paddles score (right)
-  Pong.context.fillText(
-    Pong.ai.score.toString(),
-    Pong.canvas.width / 2 + 300,
-    200
-  );
+  // Draw the secondPlayer score (right)
+  if (Pong.ai) { // Check if Pong.ai (AI) exists before drawing its score
+    Pong.context.fillText(
+      Pong.ai.score.toString(),
+      Pong.canvas.width / 2 + 300,
+      200
+    );
+  }
 
   // Change the font size for the center score text
   Pong.context.font = "30px Courier New";
