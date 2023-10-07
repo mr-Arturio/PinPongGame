@@ -101,7 +101,6 @@ const Game = {
     );
   },
 
-  // Update all objects (move the player, ai, ball, increment the score, etc.)
   update: function () {
     if (!this.over) {
       // If the ball collides with the bound limits - correct the x and y coords.
@@ -111,12 +110,20 @@ const Game = {
       if (this.ball.y <= 0) this.ball.moveY = DIRECTION.DOWN;
       if (this.ball.y >= this.canvas.height - this.ball.height)
         this.ball.moveY = DIRECTION.UP;
-
-      // Move player if they player.move value was updated by a keyboard event
+  
+      // Move player if their move value was updated by a keyboard event
       if (this.player.move === DIRECTION.UP) this.player.y -= this.player.speed;
       else if (this.player.move === DIRECTION.DOWN)
         this.player.y += this.player.speed;
-
+  
+      // Move second player (if it exists)
+      if (this.secondPlayer) {
+        if (this.secondPlayer.move === DIRECTION.UP)
+          this.secondPlayer.y -= this.secondPlayer.speed;
+        else if (this.secondPlayer.move === DIRECTION.DOWN)
+          this.secondPlayer.y += this.secondPlayer.speed;
+      }
+  
       // On new serve (start of each turn) move the ball to the correct side
       // and randomize the direction to add some challenge.
       if (Pong._turnDelayIsOver.call(this) && this.turn) {
@@ -129,12 +136,12 @@ const Game = {
           Math.floor(Math.random() * this.canvas.height - 200) + 200;
         this.turn = null;
       }
-
+  
       // If the player collides with the bound limits, update the x and y coords.
       if (this.player.y <= 0) this.player.y = 0;
       else if (this.player.y >= this.canvas.height - this.player.height)
         this.player.y = this.canvas.height - this.player.height;
-
+  
       // Move ball in intended direction based on moveY and moveX values
       if (this.ball.moveY === DIRECTION.UP)
         this.ball.y -= this.ball.speed / 1.5;
@@ -143,7 +150,7 @@ const Game = {
       if (this.ball.moveX === DIRECTION.LEFT) this.ball.x -= this.ball.speed;
       else if (this.ball.moveX === DIRECTION.RIGHT)
         this.ball.x += this.ball.speed;
-
+  
       // Handle ai (AI) UP and DOWN movement
       if (this.ai.y > this.ball.y - this.ai.height / 2) {
         if (this.ball.moveX === DIRECTION.RIGHT)
@@ -155,12 +162,12 @@ const Game = {
           this.ai.y += this.ai.speed / 1.5;
         else this.ai.y += this.ai.speed / 4;
       }
-
+  
       // Handle ai (AI) wall collision
       if (this.ai.y >= this.canvas.height - this.ai.height)
         this.ai.y = this.canvas.height - this.ai.height;
       else if (this.ai.y <= 0) this.ai.y = 0;
-
+  
       // Handle Player-Ball collisions
       if (
         this.ball.x - this.ball.width <= this.player.x &&
@@ -174,22 +181,24 @@ const Game = {
           this.ball.moveX = DIRECTION.RIGHT;
         }
       }
-
-      // Handle ai-ball collision
-      if (
-        this.ball.x - this.ball.width <= this.ai.x &&
-        this.ball.x >= this.ai.x - this.ai.width
-      ) {
+  
+      // Handle second player-ball collisions (if it exists)
+      if (this.secondPlayer) {
         if (
-          this.ball.y <= this.ai.y + this.ai.height &&
-          this.ball.y + this.ball.height >= this.ai.y
+          this.ball.x - this.ball.width <= this.secondPlayer.x &&
+          this.ball.x >= this.secondPlayer.x - this.secondPlayer.width
         ) {
-          this.ball.x = this.ai.x - this.ball.width;
-          this.ball.moveX = DIRECTION.LEFT;
+          if (
+            this.ball.y <= this.secondPlayer.y + this.secondPlayer.height &&
+            this.ball.y + this.ball.height >= this.secondPlayer.y
+          ) {
+            this.ball.x = this.secondPlayer.x - this.ball.width;
+            this.ball.moveX = DIRECTION.LEFT;
+          }
         }
       }
     }
-
+  
     // Handle the end of round transition
     // Check to see if the player won the round.
     if (this.player.score === rounds[this.round]) {
@@ -218,6 +227,7 @@ const Game = {
       }, 1000);
     }
   },
+  
 
     // Draw the objects to the canvas element
     draw: function () {
