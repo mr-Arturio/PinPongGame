@@ -205,10 +205,10 @@ const Game = {
     }
   },
 
-    // Draw the objects to the canvas element
-    draw: function () {
-        drawGame(this, rounds); // Use the drawGame function from the draw module
-      },
+  // Draw the objects to the canvas element
+  draw: function () {
+    drawGame(this, rounds); // Use the drawGame function from the draw module
+  },
 
   loop: function () {
     Pong.update();
