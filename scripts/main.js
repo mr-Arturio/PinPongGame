@@ -2,7 +2,6 @@ import { Ball } from "./modules/ball.js";
 import { DIRECTION } from "./modules/directions.js";
 // import { Ai } from "./modules/ai.js";
 import { drawGame } from "./modules/drawGame.js";
-import { Player } from "./modules/player.js";
 
 const rounds = [5, 5, 3, 3, 2];
 const colors = ["#1abc9c", "#2ecc71", "#3498db", "#8c52ff", "#9b59b6"];
@@ -155,6 +154,11 @@ const Game = {
         this.player2.y -= this.player2.speed;
       else if (this.player2.move === DIRECTION.DOWN)
         this.player2.y += this.player2.speed;
+
+              // If player 2 collides with the bound limits, update the x and y coords.
+      if (this.player2.y <= 0) this.player2.y = 0;
+      else if (this.player2.y >= this.canvas.height - this.player2.height)
+        this.player2.y = this.canvas.height - this.player2.height;
 
       // Handle Player 1-Ball collisions
       if (
