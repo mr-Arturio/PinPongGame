@@ -1,6 +1,6 @@
 import { Ball } from "./modules/ball.js";
 import { DIRECTION } from "./modules/directions.js";
-import { Ai } from "./modules/ai.js";
+// import { Ai } from "./modules/ai.js";
 import { drawGame } from "./modules/drawGame.js";
 import { Player } from "./modules/player.js";
 
@@ -17,27 +17,33 @@ const Game = {
   
     this.canvas.style.width = this.canvas.width / 2 + "px";
     this.canvas.style.height = this.canvas.height / 2 + "px";
-  
-    // Prompt the user to choose between playing against AI or another player
-    const choice = prompt('Choose your opponent: 1 for AI, 2 for another player');
-  
-    if (choice === '1') {
-      this.player = Player.new.call(this, 'left', ['w', 's']);
-      this.ai = Ai.new.call(this, 'right');
-    } else if (choice === '2') {
-      this.player = Player.new.call(this, 'left', ['w', 's']);
-      this.secondPlayer = Player.new.call(this, 'right', ['ArrowUp', 'ArrowDown']);
-    } else {
-      alert('Invalid choice. Playing against AI by default.');
-      this.player = Player.new.call(this, 'left', ['w', 's']);
-      this.ai = Ai.new.call(this, 'right');
-    }
-  
+
+    this.player1 = {
+      width: 18,
+      height: 180,
+      x: 150,
+      y: this.canvas.height / 2 - 35,
+      score: 0,
+      move: DIRECTION.IDLE,
+      speed: 8,
+    };
+
+    this.player2 = {
+      width: 18,
+      height: 180,
+      x: this.canvas.width - 150,
+      y: this.canvas.height / 2 - 35,
+      score: 0,
+      move: DIRECTION.IDLE,
+      speed: 8,
+    };
+
     this.ball = Ball.new.call(this);
-  
-    // this.ai.speed = 5;
+
+    this.player1.speed = 5;
+    this.player2.speed = 5;
     this.running = this.over = false;
-    this.turn = this.ai;
+    this.turn = this.player2;
     this.timer = this.round = 0;
     this.color = "#8c52ff";
   
@@ -104,31 +110,24 @@ const Game = {
   update: function () {
     if (!this.over) {
       // If the ball collides with the bound limits - correct the x and y coords.
-      if (this.ball.x <= 0) Pong._resetTurn.call(this, this.ai, this.player);
+      if (this.ball.x <= 0) this._resetTurn(this.player2, this.player1);
       if (this.ball.x >= this.canvas.width - this.ball.width)
-        Pong._resetTurn.call(this, this.player, this.ai);
+        this._resetTurn(this.player1, this.player2);
       if (this.ball.y <= 0) this.ball.moveY = DIRECTION.DOWN;
       if (this.ball.y >= this.canvas.height - this.ball.height)
         this.ball.moveY = DIRECTION.UP;
-  
-      // Move player if their move value was updated by a keyboard event
-      if (this.player.move === DIRECTION.UP) this.player.y -= this.player.speed;
-      else if (this.player.move === DIRECTION.DOWN)
-        this.player.y += this.player.speed;
-  
-      // Move second player (if it exists)
-      if (this.secondPlayer) {
-        if (this.secondPlayer.move === DIRECTION.UP)
-          this.secondPlayer.y -= this.secondPlayer.speed;
-        else if (this.secondPlayer.move === DIRECTION.DOWN)
-          this.secondPlayer.y += this.secondPlayer.speed;
-      }
-  
+
+      // Move player 1 if their move value was updated by a keyboard event
+      if (this.player1.move === DIRECTION.UP)
+        this.player1.y -= this.player1.speed;
+      else if (this.player1.move === DIRECTION.DOWN)
+        this.player1.y += this.player1.speed;
+
       // On new serve (start of each turn) move the ball to the correct side
       // and randomize the direction to add some challenge.
-      if (Pong._turnDelayIsOver.call(this) && this.turn) {
+      if (this._turnDelayIsOver() && this.turn) {
         this.ball.moveX =
-          this.turn === this.player ? DIRECTION.LEFT : DIRECTION.RIGHT;
+          this.turn === this.player1 ? DIRECTION.LEFT : DIRECTION.RIGHT;
         this.ball.moveY = [DIRECTION.UP, DIRECTION.DOWN][
           Math.round(Math.random())
         ];
@@ -136,12 +135,12 @@ const Game = {
           Math.floor(Math.random() * this.canvas.height - 200) + 200;
         this.turn = null;
       }
-  
-      // If the player collides with the bound limits, update the x and y coords.
-      if (this.player.y <= 0) this.player.y = 0;
-      else if (this.player.y >= this.canvas.height - this.player.height)
-        this.player.y = this.canvas.height - this.player.height;
-  
+
+      // If player 1 collides with the bound limits, update the x and y coords.
+      if (this.player1.y <= 0) this.player1.y = 0;
+      else if (this.player1.y >= this.canvas.height - this.player1.height)
+        this.player1.y = this.canvas.height - this.player1.height;
+
       // Move ball in intended direction based on moveY and moveX values
       if (this.ball.moveY === DIRECTION.UP)
         this.ball.y -= this.ball.speed / 1.5;
@@ -150,89 +149,76 @@ const Game = {
       if (this.ball.moveX === DIRECTION.LEFT) this.ball.x -= this.ball.speed;
       else if (this.ball.moveX === DIRECTION.RIGHT)
         this.ball.x += this.ball.speed;
-  
-      // Handle ai (AI) UP and DOWN movement
-      if (this.ai.y > this.ball.y - this.ai.height / 2) {
-        if (this.ball.moveX === DIRECTION.RIGHT)
-          this.ai.y -= this.ai.speed / 1.5;
-        else this.ai.y -= this.ai.speed / 4;
-      }
-      if (this.ai.y < this.ball.y - this.ai.height / 2) {
-        if (this.ball.moveX === DIRECTION.RIGHT)
-          this.ai.y += this.ai.speed / 1.5;
-        else this.ai.y += this.ai.speed / 4;
-      }
-  
-      // Handle ai (AI) wall collision
-      if (this.ai.y >= this.canvas.height - this.ai.height)
-        this.ai.y = this.canvas.height - this.ai.height;
-      else if (this.ai.y <= 0) this.ai.y = 0;
-  
-      // Handle Player-Ball collisions
+
+      // Handle player 2 (second player) UP and DOWN movement
+      if (this.player2.move === DIRECTION.UP)
+        this.player2.y -= this.player2.speed;
+      else if (this.player2.move === DIRECTION.DOWN)
+        this.player2.y += this.player2.speed;
+
+      // Handle Player 1-Ball collisions
       if (
-        this.ball.x - this.ball.width <= this.player.x &&
-        this.ball.x >= this.player.x - this.player.width
+        this.ball.x - this.ball.width <= this.player1.x &&
+        this.ball.x >= this.player1.x - this.player1.width
       ) {
         if (
-          this.ball.y <= this.player.y + this.player.height &&
-          this.ball.y + this.ball.height >= this.player.y
+          this.ball.y <= this.player1.y + this.player1.height &&
+          this.ball.y + this.ball.height >= this.player1.y
         ) {
-          this.ball.x = this.player.x + this.ball.width;
+          this.ball.x = this.player1.x + this.ball.width;
           this.ball.moveX = DIRECTION.RIGHT;
         }
       }
-  
-      // Handle second player-ball collisions (if it exists)
-      if (this.secondPlayer) {
+
+      // Handle Player 2-Ball collisions
+      if (
+        this.ball.x - this.ball.width <= this.player2.x &&
+        this.ball.x >= this.player2.x - this.player2.width
+      ) {
         if (
-          this.ball.x - this.ball.width <= this.secondPlayer.x &&
-          this.ball.x >= this.secondPlayer.x - this.secondPlayer.width
+          this.ball.y <= this.player2.y + this.player2.height &&
+          this.ball.y + this.ball.height >= this.player2.y
         ) {
-          if (
-            this.ball.y <= this.secondPlayer.y + this.secondPlayer.height &&
-            this.ball.y + this.ball.height >= this.secondPlayer.y
-          ) {
-            this.ball.x = this.secondPlayer.x - this.ball.width;
-            this.ball.moveX = DIRECTION.LEFT;
-          }
+          this.ball.x = this.player2.x - this.ball.width;
+          this.ball.moveX = DIRECTION.LEFT;
         }
       }
     }
   
     // Handle the end of round transition
-    // Check to see if the player won the round.
-    if (this.player.score === rounds[this.round]) {
+    // Check to see if player 1 won the round.
+    if (this.player1.score === rounds[this.round]) {
       // Check to see if there are any more rounds/levels left and display the victory screen if
       // there are not.
       if (!rounds[this.round + 1]) {
         this.over = true;
-        setTimeout(function () {
-          Pong.endGameMenu("Winner!");
+        setTimeout(() => {
+          Pong.endGameMenu("Player 1 Wins!");
         }, 1000);
       } else {
         // If there is another round, reset all the values and increment the round number.
         this.color = this._generateRoundColor();
-        this.player.score = this.ai.score = 0;
-        this.player.speed += 0.5;
-        this.ai.speed += 1;
+        this.player1.score = this.player2.score = 0;
+        this.player1.speed += 0.5;
+        this.player2.speed += 0.5;
         this.ball.speed += 1;
         this.round += 1;
       }
     }
-    // Check to see if the ai/AI has won the round.
-    else if (this.ai.score === rounds[this.round]) {
+    // Check to see if player 2 won the round.
+    else if (this.player2.score === rounds[this.round]) {
       this.over = true;
-      setTimeout(function () {
-        Pong.endGameMenu("Game Over!");
+      setTimeout(() => {
+        Pong.endGameMenu("Player 2 Wins!");
       }, 1000);
     }
   },
   
 
-    // Draw the objects to the canvas element
-    draw: function () {
-        drawGame(this, rounds); // Use the drawGame function from the draw module
-      },
+  // Draw the objects to the canvas element
+  draw: function () {
+    drawGame(this, rounds); // Use the drawGame function from the draw module
+  },
 
   loop: function () {
     Pong.update();
@@ -243,45 +229,28 @@ const Game = {
   },
 
   listen: function () {
-    const self = this; // Store a reference to 'this' to use within event listeners
-  
-    document.addEventListener('keydown', function (key) {
+    document.addEventListener("keydown", (key) => {
       // Handle the 'Press any key to begin' function and start the game.
-      if (self.running === false) {
-        self.running = true;
-        window.requestAnimationFrame(self.loop);
+      if (!this.running) {
+        this.running = true;
+        window.requestAnimationFrame(this.loop);
       }
-  
-      // Handle input for the first player (left)
-      if (key.key === self.player.controlKeys[0]) {
-        self.player.move = DIRECTION.UP;
-      } else if (key.key === self.player.controlKeys[1]) {
-        self.player.move = DIRECTION.DOWN;
-      }
-  
-      // Handle input for the second player (right)
-      if (self.secondPlayer) {
-        if (key.key === self.secondPlayer.controlKeys[0]) {
-          self.secondPlayer.move = DIRECTION.UP;
-        } else if (key.key === self.secondPlayer.controlKeys[1]) {
-          self.secondPlayer.move = DIRECTION.DOWN;
-        }
-      }
+
+      // Player 1 controls
+      if (key.key === "w") this.player1.move = DIRECTION.UP;
+      else if (key.key === "s") this.player1.move = DIRECTION.DOWN;
+
+      // Player 2 controls (arrow keys)
+      if (key.key === "ArrowUp") this.player2.move = DIRECTION.UP;
+      else if (key.key === "ArrowDown") this.player2.move = DIRECTION.DOWN;
     });
-  
-    // Stop the players from moving when there are no keys being pressed.
-    document.addEventListener('keyup', function (key) {
-      // Handle input for the first player (left)
-      if (key.key === self.player.controlKeys[0] || key.key === self.player.controlKeys[1]) {
-        self.player.move = DIRECTION.IDLE;
-      }
-  
-      // Handle input for the second player (right)
-      if (self.secondPlayer) {
-        if (key.key === self.secondPlayer.controlKeys[0] || key.key === self.secondPlayer.controlKeys[1]) {
-          self.secondPlayer.move = DIRECTION.IDLE;
-        }
-      }
+
+    // Stop player 1 from moving when there are no keys being pressed.
+    document.addEventListener("keyup", (key) => {
+      if (key.key === "w" || key.key === "s")
+        this.player1.move = DIRECTION.IDLE;
+      if (key.key === "ArrowUp" || key.key === "ArrowDown")
+        this.player2.move = DIRECTION.IDLE;
     });
   },
   
