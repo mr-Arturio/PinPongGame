@@ -1,4 +1,7 @@
+
 import RunGame  from './modules/gameAI.js';
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // Get modal element
@@ -22,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add code to start the game against another player here
     }
   });
+
 
   // Show the modal when the page loads
   modal.classList.add('is-active');

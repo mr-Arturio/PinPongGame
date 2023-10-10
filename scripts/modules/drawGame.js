@@ -11,16 +11,21 @@ export function drawGame(Pong, rounds) {
   // Set the fill style to white (For the paddles and the ball)
   Pong.context.fillStyle = "#ffffff";
 
-  // Draw the Player
+  // Draw Player 1
   Pong.context.fillRect(
-    Pong.player.x,
-    Pong.player.y,
-    Pong.player.width,
-    Pong.player.height
+    Pong.player1.x,
+    Pong.player1.y,
+    Pong.player1.width,
+    Pong.player1.height
   );
 
-  // Draw the Ai
-  Pong.context.fillRect(Pong.ai.x, Pong.ai.y, Pong.ai.width, Pong.ai.height);
+  // Draw Player 2
+  Pong.context.fillRect(
+    Pong.player2.x,
+    Pong.player2.y,
+    Pong.player2.width,
+    Pong.player2.height
+  );
 
   // Draw the Ball
   if (Pong._turnDelayIsOver.call(Pong)) {
@@ -45,16 +50,16 @@ export function drawGame(Pong, rounds) {
   Pong.context.font = "100px Courier New";
   Pong.context.textAlign = "center";
 
-  // Draw the players score (left)
+  // Draw Player 1's score (left)
   Pong.context.fillText(
-    Pong.player.score.toString(),
+    Pong.player1.score.toString(),
     Pong.canvas.width / 2 - 300,
     200
   );
 
-  // Draw the paddles score (right)
+  // Draw Player 2's score (right)
   Pong.context.fillText(
-    Pong.ai.score.toString(),
+    Pong.player2.score.toString(),
     Pong.canvas.width / 2 + 300,
     200
   );
@@ -62,7 +67,7 @@ export function drawGame(Pong, rounds) {
   // Change the font size for the center score text
   Pong.context.font = "30px Courier New";
 
-  // Draw the winning score (center)
+  // Draw the current round number
   Pong.context.fillText(
     "Round " + (Pong.round + 1),
     Pong.canvas.width / 2,
@@ -72,7 +77,7 @@ export function drawGame(Pong, rounds) {
   // Change the font size for the center score value
   Pong.context.font = "40px Courier";
 
-  // Draw the current round number
+  // Draw the remaining rounds
   Pong.context.fillText(
     rounds[Pong.round] ? rounds[Pong.round] : rounds[Pong.round - 1],
     Pong.canvas.width / 2,
