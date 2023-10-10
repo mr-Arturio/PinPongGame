@@ -3,6 +3,9 @@ import { DIRECTION } from "./modules/directions.js";
 import { Ai } from "./modules/ai.js";
 import { drawGame } from "./modules/drawGame.js";
 
+
+export default function RunGame() {
+
 const rounds = [5, 5, 3, 3, 2];
 const colors = ["#1abc9c", "#2ecc71", "#3498db", "#8c52ff", "#9b59b6"];
 
@@ -265,3 +268,5 @@ const Game = {
 
 const Pong = Object.assign({}, Game);
 Pong.initialize();
+
+};
