@@ -18,4 +18,5 @@ keep track of the game score: how many games one player won.
 
 Progress: <br>
 I have a ping pong game that needs to be refactored. It is currently you versus the computer. We need to add a second player option, connect scores, and implement "Playing To" logic. Additionally, we need to adjust the game mechanics.<br>
-Import/export works wierd... doesnt want to work strait away, but after magicaly works, maybe it is something with the server...
+Import/export works wierd... doesnt want to work strait away, but after magicaly works, maybe it is something with the server... <br>
+Manage to add Bulma Module to chose game type - AI or Second Player (only AI works for now). Did a separate JS file to manage game lunch accordingly what you game type you choose. Manage to export working AI game file, need to rename and organize better (dry out and more export)
