@@ -1,6 +1,6 @@
 
 import RunGamePlayers from "./modules/gamePlayers.js";
-
+import RunGame  from './modules/gameAI.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,3 +30,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show the modal when the page loads
   modal.classList.add('is-active');
 });
+
