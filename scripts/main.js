@@ -1,6 +1,6 @@
 
+import RunGamePlayers from "./modules/gamePlayers.js";
 import RunGame  from './modules/gameAI.js';
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gameMode === "ai") {
       RunGame();
     } else if (gameMode === "player") {
-      // Add code to start the game against another player here
+    RunGamePlayers();
     }
   });
 
@@ -30,3 +30,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show the modal when the page loads
   modal.classList.add('is-active');
 });
+
