@@ -40,7 +40,7 @@ export function drawGame(Pong, rounds) {
   // Draw the net (Line in the middle)
   Pong.context.beginPath();
   Pong.context.setLineDash([7, 15]);
-  Pong.context.moveTo(Pong.canvas.width / 2, Pong.canvas.height - 140);
+  Pong.context.moveTo(Pong.canvas.width / 2, Pong.canvas.height - 60);
   Pong.context.lineTo(Pong.canvas.width / 2, 140);
   Pong.context.lineWidth = 10;
   Pong.context.strokeStyle = "#ffffff";
