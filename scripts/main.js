@@ -1,4 +1,4 @@
-import RunGame  from './modules/game.js';
+import RunGame  from './modules/gameAI.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Get modal element
