@@ -9,7 +9,31 @@
 
 </head>
 <body>
-  
+  <!-- Modal HTML -->
+<div class="modal" id="modeSelectionModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Select Game Mode</p>
+      <button class="delete" aria-label="close" data-dismiss="modal"></button>
+    </header>
+    <section class="modal-card-body">
+      <p>Select the game mode:</p>
+      <label class="radio">
+        <input type="radio" name="gameMode" value="ai">
+        Play against AI
+      </label>
+      <label class="radio">
+        <input type="radio" name="gameMode" value="player">
+        Play against another player
+      </label>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-primary" id="startGameButton">Start Game</button>
+      <button class="button" data-dismiss="modal">Cancel</button>
+    </footer>
+  </div>
+</div>
 <section class="section">
   
   <div class="container">
