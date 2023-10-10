@@ -1,7 +1,7 @@
 import { Ball } from "./ball.js";
 import { DIRECTION } from "./directions.js";
 import { Ai } from "./ai.js";
-import { drawGame } from "./drawGame.js";
+import { drawGame } from "./drawGameAI.js";
 
 
 export default function RunGame() {
