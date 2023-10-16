@@ -1,0 +1,13 @@
+canvas {
+  display: block; /* Prevents the canvas from being cut off if the window is too small */
+  margin: 0 auto; /* Centers the canvas */
+  background: #fba402cf; /* Sets a background color */
+  border: 10px solid #02cafc; /* Add a border for a solid appearance */
+  box-sizing: border-box; /* Include padding and border within the element's total width */
+
+}
+
+.canvas-with-padding {
+  padding: 30px 10px; /* Adjust the padding as needed */
+  box-sizing: border-box; /* Include padding and border within the element's total width */
+}
