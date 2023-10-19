@@ -38,11 +38,10 @@
     </div>
 
     <div class="columns">
-
       <!-- Left column -->
-      <div class="column is-2-desktop is-12-tablet">
+      <div class="column is-3-desktop is-12-tablet">
         <div class="box">
-          <div class="columns">
+          <div class="column">
             <div class="column is-12">
               <div class="field">
                 <label class="label">Player 1</label>
@@ -56,6 +55,54 @@
                 </div>
               </div>
             </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Score to win</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="number"
+                    placeholder="Enter score to win"
+                    id="scoreToWin"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Game Mode</label>
+                <div class="control">
+                  <div class="select">
+                    <select id="gameMode">
+                      <option value="ai">Play against AI</option>
+                      <option value="player">
+                        Play against another player
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <button class="button is-primary" id="startGameButton">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Middle co,umn - game field  -->
+      <div
+        class="column is-6-desktop is-12-tablet is-flex is-justify-content-center is-align-items-center"
+      >
+        <canvas class="canvas-with-padding"> </canvas>
+      </div>
+
+      <!-- right column -->
+      <div class="column is-3-desktop is-12-tablet">
+        <div class="box">
+          <div class="column">
             <div class="column is-12">
               <div class="field">
                 <label class="label">Player 2</label>
@@ -89,7 +136,9 @@
                   <div class="select">
                     <select id="gameMode">
                       <option value="ai">Play against AI</option>
-                      <option value="player">Play against another player</option>
+                      <option value="player">
+                        Play against another player
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -102,20 +151,7 @@
             </div>
           </div>
         </div>
-
-
       </div>
-
-      <!--Middle co,umn - game field  -->
-      <div
-        class="column is-8-desktop is-12-tablet is-flex is-justify-content-center is-align-items-center"
-      >
-        <canvas class="canvas-with-padding"> </canvas>
-      </div>
-
-      <!-- right column -->
-      <div class="column is-2-desktop is-12-tablet">Auto</div>
-      
     </div>
 
     <script type="module" src="./scripts/main.js"></script>
