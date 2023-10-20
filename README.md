@@ -21,4 +21,7 @@ I have a ping-pong game that needs to be refactored. It is currently you versus 
 Import/export works weirdly... doesn't want to work straight away, but after magically works, maybe it is something with the server... <br>
 Import/export works weirdly... doesn't want to work straight away, but after magically works, maybe it is something with the server...<br>
 I have two working versions of the game - one is player vs AI - where 5 levels of the game are available... second: is Player1 vs Player2 on one keyboard (arroes and 'w' 's' controls) -  a working game with scores. Need to combine them in one version where the player can choose to play vs AI or another player on the same PC and lunch the game accordingly, add different difficulty levels, improve scorekeeping for player vs player, add webSocket?<br>
-Manage to add Bulma Module to choose game type - AI or Second Player (only AI works for now). Did a separate JS file to manage game lunch according to what game type you choose. Manage to export working AI game files, need to rename and organize better (dry out and more export)
+Manage to add Bulma Module to choose game type - AI or Second Player (only AI works for now). Did a separate JS file to manage game lunch according to what game type you choose. Manage to export working AI game files, need to rename and organize better (dry out and more export) <br>
+Combine two drewGame files in one, delete unused, rename, optimize...<br>
+Made three columns - game in the middle, left colomn for game settings (dificalty levels, players names...), right column for score etc <br>
+Need to remove start game by pressing any buttom option... imposible to type and manipulate. Add one layer below the canvas with start button.

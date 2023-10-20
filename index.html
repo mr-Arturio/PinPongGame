@@ -11,37 +11,147 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-
-     <!-- Modal HTML -->
-<div class="modal" id="modeSelectionModal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Select Game Mode</p>
-    </header>
-    <section class="modal-card-body">
-      <p>Select the game mode:</p>
-      <label class="radio">
-        <input type="radio" name="gameMode" value="ai">
-        Play against AI
-      </label>
-      <label class="radio">
-        <input type="radio" name="gameMode" value="player">
-        Play against another player
-      </label>
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-primary" id="startGameButton">Start Game</button>
-    </footer>
-  </div>
-</div>
+    <!-- Modal HTML -->
+    <div class="modal" id="modeSelectionModal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Select Game Mode</p>
+        </header>
+        <section class="modal-card-body">
+          <p>Select the game mode:</p>
+          <label class="radio">
+            <input type="radio" name="gameMode" value="ai" />
+            Play against AI
+          </label>
+          <label class="radio">
+            <input type="radio" name="gameMode" value="player" />
+            Play against another player
+          </label>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-primary" id="startGameButton">
+            Start Game
+          </button>
+        </footer>
+      </div>
+    </div>
 
     <div class="columns">
-      <div class="column is-2-desktop is-12-tablet">Auto</div>
-      <div class="column is-8-desktop  is-12-tablet is-flex is-justify-content-center is-align-items-center">
+      <!-- Left column -->
+      <div class="column is-3-desktop is-12-tablet">
+        <div class="box">
+          <div class="column">
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Player 1</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="Enter player 1 name"
+                    id="player1Name"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Score to win</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="number"
+                    placeholder="Enter score to win"
+                    id="scoreToWin"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Game Mode</label>
+                <div class="control">
+                  <div class="select">
+                    <select id="gameMode">
+                      <option value="ai">Play against AI</option>
+                      <option value="player">
+                        Play against another player
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <button class="button is-primary" id="startGameButton">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Middle co,umn - game field  -->
+      <div
+        class="column is-6-desktop is-12-tablet is-flex is-justify-content-center is-align-items-center"
+      >
         <canvas class="canvas-with-padding"> </canvas>
       </div>
-      <div class="column is-2-desktop is-12-tablet">Auto</div>
+
+      <!-- right column -->
+      <div class="column is-3-desktop is-12-tablet">
+        <div class="box">
+          <div class="column">
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Player 2</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="Enter player 2 name"
+                    id="player2Name"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Score to win</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="number"
+                    placeholder="Enter score to win"
+                    id="scoreToWin"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label">Game Mode</label>
+                <div class="control">
+                  <div class="select">
+                    <select id="gameMode">
+                      <option value="ai">Play against AI</option>
+                      <option value="player">
+                        Play against another player
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-12">
+              <button class="button is-primary" id="startGameButton">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="./scripts/main.js"></script>
